@@ -1,5 +1,8 @@
 import sys
+import getpass
 from PySide import QtGui,QtCore
+if not "C:/Users/"+getpass.getuser()+"/Documents/gitfolder/Gui_miniGame" in sys.path:
+    sys.path.append("C:/Users/"+getpass.getuser()+"/Documents/gitfolder/Gui_miniGame")
 import JKPgame.Func  as Fun
 reload (Fun)
 a = Fun.Function()
@@ -17,7 +20,7 @@ class Main(QtGui.QDialog):
         self.mass = QtGui.QMenu('Massage')
         self.reset = QtGui.QAction('Reset',self)
         self.exit = QtGui.QAction('Exit',self)        
-        self.gameName = QtGui.QLabel('Game Name')
+        self.gameName = QtGui.QLabel('JanKenPon Game')
         self.hp1 = QtGui.QLabel('HP')
         self.hp2 = QtGui.QLabel('HP')
         self.turn = QtGui.QLabel('00')
@@ -35,6 +38,8 @@ class Main(QtGui.QDialog):
         self.MonsPic= QtGui.QLabel()
         self.MonsN = QtGui.QLabel('Monster')
         self.MonsPic.setPixmap(QtGui.QPixmap(self.MonsImg))
+        self.MonsPic2 = QtGui.QLabel()
+        self.MonsPic2.setPixmap(QtGui.QPixmap(self.MonsImg))
         self.blank = QtGui.QLabel()
         self.blank.setPixmap(QtGui.QPixmap(self.backImg))
         self.MonsC = QtGui.QLabel()
@@ -71,6 +76,7 @@ class Main(QtGui.QDialog):
         self.mass.addAction(self.exit)
         topLayout.addWidget(self.gameName)
         topLayout.setAlignment(QtCore.Qt.AlignCenter)
+        topLayout.setContentsMargins(0,1,0,1)
         statLayout.addWidget(self.hp1)
         statLayout.addWidget(self.heroHp)
         self.heroHp.setAlignment(QtCore.Qt.AlignCenter)
@@ -149,6 +155,9 @@ class Main(QtGui.QDialog):
         self.turn.setText('%02d'%a.turnC)
         self.blank.setPixmap(QtGui.QPixmap(self.backImg))
         self.MonsC.setPixmap(QtGui.QPixmap(self.backImg))
+        self.C1.setDisabled(False)
+        self.C2.setDisabled(False)
+        self.C3.setDisabled(False)
     def checkHP(self):
         if a.HeroHp>0 and a.MonsHp<=0:
             self.winlog()
@@ -163,14 +172,17 @@ class Main(QtGui.QDialog):
         self.txt1= QtGui.QLabel('You Win')
         self.txt2 =QtGui.QLabel('You Lose')
         if a.HeroHp>0 and a.MonsHp<=0:
-            logLayout1.addWidget(self.heroPic)
+            logLayout1.addWidget(self.heroPic2)
             logLayout1.addWidget(self.txt1)
         elif a.HeroHp<=0 and a.MonsHp>0:
-            logLayout1.addWidget(self.MonsPic)
+            logLayout1.addWidget(self.MonsPic2)
             logLayout1.addWidget(self.txt2)
         logLayout2.addWidget(self.btn1)
         mLayout.addLayout(logLayout1)
         mLayout.addLayout(logLayout2)
+        self.C1.setDisabled(True)
+        self.C2.setDisabled(True)
+        self.C3.setDisabled(True)
         self.wid.setLayout(mLayout)
         self.wid.show()
         app1 = QtGui.QApplication(sys.argv)
